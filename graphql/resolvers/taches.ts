@@ -1,13 +1,12 @@
-const Tache = require('../../models/tache').Taches;
-const { transformEvent } = require('./merge');
-const User = require('../../models/user');
-
-
-module.exports = {
-    taches: async () => {
+import { Tache } from '../../models/tache';
+import { transformEvent, user } from './merge';
+import { User } from '../../models/user';
+import { Response, Request, NextFunction } from "express";
+    
+    export const taches = async () => {
         try {
             const taches = await Tache.find();
-            return taches.map(tache => {
+            return taches.map((tache : any) => {
                 return transformEvent(tache);
             })
         } catch (err) {
@@ -16,19 +15,19 @@ module.exports = {
 
         }
 
-    },
-    addTache: async (args, req) => {
+    }
+    export const addTache = async (args : any, req : Request) => {
 
-        if (!req.isAuth) {
-            throw new Error('Unauthenticated!');
-        }
+        // if (!req.isAuth) {
+        //     throw new Error('Unauthenticated!');
+        // }
 
         let createdTache
         const tache = new Tache({
             name: args.tacheInput.name,
             description: args.tacheInput.description,
             isCompleted: args.tacheInput.isCompleted,
-            user: req.userId
+           user: "60bd3c091352344a58e2b071"
         });
         try {
             const result = await tache.save();
@@ -36,7 +35,7 @@ module.exports = {
                 ...result._doc,
                 user: user.bind(this, result._doc.user)
             }
-            const userById = await User.findById(req.userId);
+            const userById = await User.findById("60bd3c091352344a58e2b071");
 
             if (!userById) {
                 throw new Error('user Not Found');
@@ -48,19 +47,18 @@ module.exports = {
             console.log(err);
             throw err;
         }
-    },
-    deleteTache: async (args, req) => {
+    }
+    export const deleteTache = async (args : any, req : Request) => {
 
-        if (!req.isAuth) {
-            throw new Error('Unauthenticated!');
-        }
+        // if (!req.isAuth) {
+        //     throw new Error('Unauthenticated!');
+        // }
 
         try {
             const tache = await Tache.findById(args.tacheId);
 
-            await Partage.deleteOne({ _id: args.partageId })
+            await Tache.deleteOne({ _id: args.partageId })
         } catch (err) {
             throw err;
         }
     }
-}

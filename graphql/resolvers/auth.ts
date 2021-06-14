@@ -1,12 +1,13 @@
-const User = require('../../models/user');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+import { User } from '../../models/user';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
-module.exports = {
 
-    addUser: async args => {
+    export const addUser = async (args: any) => {
         try {
+            console.log("oooooo")
             const user = await User.findOne({ email: args.userInput.email });
+            console.log(user)
             if (user) {
                 throw new Error('user exsist already')
             }
@@ -17,15 +18,15 @@ module.exports = {
                 email: args.userInput.email,
                 password: hashedPassword
             });
-
+            console.log(newUser)
             const result = await newUser.save();
 
             return { ...result._doc, password: null }
         } catch (err) {
             throw err;
         }
-    },
-    login: async ({ email, password }) => {
+    }
+    export const login = async (email: string, password: string) => {
         const user = await User.findOne({ email: email });
         if (!user) {
             throw new Error('User does not exist !');
@@ -35,6 +36,5 @@ module.exports = {
             throw new Error('Password is incorrect')
         }
         const accessToken = jwt.sign({ userId: user.email, email: user.password }, 'somesuprsercretkeys');
-        return { userId : user.id, token: accessToken }
+        return { userId: user.id, token: accessToken }
     }
-}

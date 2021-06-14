@@ -1,5 +1,5 @@
 'use strict';
-var mongoose = require('mongoose');
+import mongoose from "mongoose";
 var Schema = mongoose.Schema;
 var CommentaireSchema= new Schema({
   
@@ -9,4 +9,4 @@ var CommentaireSchema= new Schema({
     }
 
 })
-module.exports = mongoose.model('Commentaire', CommentaireSchema);
+export const Commentaire = mongoose.model('Commentaire', CommentaireSchema);

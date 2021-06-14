@@ -1,35 +1,36 @@
-const Tache = require('../../models/tache').Taches;
-const Partage = require('../../models/partage');
-const User = require('../../models/user');
-const { transformEvent, transformPartge } = require('./merge');
+import { Tache } from '../../models/tache';
+import { Partage } from '../../models/partage';
+import { User } from '../../models/user';
+import { transformPartge,transformEvent } from './merge';
+import { Response, Request, NextFunction } from "express";
 
-module.exports = {
 
-    partages: async () => {
+
+    export const partages = async () => {
         try {
             const partages = await Partage.find();
-            return partages.map(partage => {
+            return partages.map((partage: any) => {
                 return transformPartge(partage);
             })
         } catch (err) {
             throw err;
         }
-    },
-    partager: async (args, req) => {
+    }
+    export const partager = async (args: any, req : Request) => {
 
-        if (!req.isAuth) {
-            throw new Error('Unauthenticated!');
-        }
+        // if (!req.isAuth) {
+        //     throw new Error('Unauthenticated!');
+        // }
 
         let createdPartage
         const fetchedTache = await Tache.findOne({ _id: args.tacheid });
         try {
             const partage = new Partage({
-                user: req.userId,
+                user: "60bd3c091352344a58e2b071",
                 tache: fetchedTache
             })
             const result = await partage.save();
-            const userById = await User.findById(req.userId);
+            const userById = await User.findById("60bd3c091352344a58e2b071");
 
             createdPartage = transformEvent(result);
 
@@ -39,12 +40,12 @@ module.exports = {
         } catch (err) {
             throw err;
         }
-    },
-    cancelPartege: async (args, req) => {
+    }
+    export const cancelPartege = async (args : any, req : Request) => {
 
-        if (!req.isAuth) {
-            throw new Error('Unauthenticated!');
-        }
+        // if (!req.isAuth) {
+        //     throw new Error('Unauthenticated!');
+        // }
 
         try {
             const partage = await Partage.findById(args.partageId).populate('tache');
@@ -57,4 +58,8 @@ module.exports = {
             throw err;
         }
     }
-}
+    export const partageResolver ={
+        ...partager,
+        ...partages,
+        ...cancelPartege
+    }

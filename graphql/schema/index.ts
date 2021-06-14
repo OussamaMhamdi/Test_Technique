@@ -1,5 +1,5 @@
-const { buildSchema } = require('graphql');
-module.exports = buildSchema(`
+import { buildSchema } from'graphql';
+const graphqlSchemas = buildSchema(`
        
     type Partage {
             _id: ID!
@@ -42,6 +42,9 @@ module.exports = buildSchema(`
             description: String
             isCompleted: Boolean
         }
+        input CommentInput {
+            description: String!
+        }
 
         input UserInput {
             email: String!
@@ -63,10 +66,11 @@ module.exports = buildSchema(`
             partager(tacheid: ID!): Partage!
             cancelPartege(partageId: ID!): Tache
             deleteComment(commentId: ID!): Tache
-            commenter(tacheid: ID!): Comment!
+            commenter(tacheid: ID!, commentInput : CommentInput ): Comment!
         }
         schema {
             query: RootQuery
             mutation: RootMutation
         }
     `)
+    export {graphqlSchemas}

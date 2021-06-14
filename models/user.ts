@@ -1,5 +1,5 @@
 'use strict';
-var mongoose = require('mongoose');
+import mongoose from "mongoose";
 var Schema = mongoose.Schema;
 var UserSchema= new Schema({
   
@@ -31,4 +31,4 @@ var UserSchema= new Schema({
     ]
 
 })
-module.exports = mongoose.model('User', UserSchema);
+export const User = mongoose.model('User', UserSchema);

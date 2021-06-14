@@ -1,5 +1,5 @@
 'use strict';
-var mongoose = require('mongoose');
+import mongoose from "mongoose";
 var Schema = mongoose.Schema;
 var PartageSchema = new Schema({
 
@@ -18,4 +18,4 @@ var PartageSchema = new Schema({
 
 },
     { timestamps: true })
-module.exports = mongoose.model('Partage', PartageSchema);
+export const Partage = mongoose.model('Partage', PartageSchema);

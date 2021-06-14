@@ -1,13 +1,14 @@
-const Tache = require('../../models/tache').Taches;
-const User = require('../../models/user');
+import { Tache } from '../../models/tache';
+import { User } from '../../models/user';
 
-const transformEvent = tache => {
+
+export const transformEvent = (tache : any) =>  {
     return {
         ...tache._doc,
         user: user.bind(this, tache.user)
     }
 }
-const transformPartge = partage => {
+export const transformPartge = (partage : any) => {
     return {
         ...partage._doc,
         user: user.bind(this, partage._doc.user),
@@ -16,7 +17,7 @@ const transformPartge = partage => {
         updateAt: new Date(partage._doc.createdAt).toISOString()
     }
 }
-const transformComment = comment => {
+export const transformComment = (comment : any) => {
     return {
         ...comment._doc,
         user: user.bind(this, comment._doc.user),
@@ -26,10 +27,10 @@ const transformComment = comment => {
     }
 }
 
-const taches = async tacheIds => {
+export const taches = async(tacheIds : any) => {
     try {
         const taches = await Tache.find({ _id: { $in: tacheIds } });
-        taches.map(tache => {
+        taches.map((tache : any) => {
             return transformEvent(tache);
         });
         return taches;
@@ -38,7 +39,7 @@ const taches = async tacheIds => {
     };
 };
 
-const user = async userId => {
+export const user = async(userId : Number) => {
     try {
         const createdUser = await User.findById(userId);
         return {
@@ -49,7 +50,7 @@ const user = async userId => {
         throw err;
     }
 }
-const singleTache = async tacheId => {
+export const singleTache = async(tacheId : Number) => {
     try {
         const tache = await Tache.findById(tacheId);
         return transformEvent(tache)
@@ -58,6 +59,3 @@ const singleTache = async tacheId => {
     }
 }
 
-exports.transformComment = transformComment;
-exports.transformEvent = transformEvent;
-exports.transformPartge = transformPartge;

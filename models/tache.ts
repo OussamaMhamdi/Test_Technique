@@ -1,5 +1,5 @@
 'use strict';
-var mongoose = require('mongoose');
+import mongoose from "mongoose";
 var Schema = mongoose.Schema;
 var TacheSchema = new Schema({
     name: {
@@ -27,5 +27,4 @@ var TacheSchema = new Schema({
         require: true
     }
 })
-var Taches = mongoose.model('Tache', TacheSchema);
-module.exports = { Taches, TacheSchema };
+export const Tache = mongoose.model('Tache', TacheSchema);
