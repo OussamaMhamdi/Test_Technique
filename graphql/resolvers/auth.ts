@@ -26,12 +26,14 @@ import jwt from 'jsonwebtoken';
             throw err;
         }
     }
-    export const login = async (email: string, password: string) => {
-        const user = await User.findOne({ email: email });
+    export const login = async (args: any) => {
+       
+        const user = await User.findOne({ 'email': args.email });
+
         if (!user) {
             throw new Error('User does not exist !');
         }
-        const isEqual = await bcrypt.compare(password, user.password);
+        const isEqual = await bcrypt.compare(args.password, user.password);
         if (!isEqual) {
             throw new Error('Password is incorrect')
         }

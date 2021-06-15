@@ -2,7 +2,7 @@ import { Tache } from '../../models/tache';
 import { Partage } from '../../models/partage';
 import { User } from '../../models/user';
 import { transformPartge,transformEvent } from './merge';
-import { Response, Request, NextFunction } from "express";
+
 
 
 
@@ -16,21 +16,21 @@ import { Response, Request, NextFunction } from "express";
             throw err;
         }
     }
-    export const partager = async (args: any, req : Request) => {
+    export const partager = async (args: any, req : any) => {
 
-        // if (!req.isAuth) {
-        //     throw new Error('Unauthenticated!');
-        // }
+        if (!req.isAuth) {
+            throw new Error('Unauthenticated!');
+        }
 
         let createdPartage
         const fetchedTache = await Tache.findOne({ _id: args.tacheid });
         try {
             const partage = new Partage({
-                user: "60bd3c091352344a58e2b071",
+                user: req.userId,
                 tache: fetchedTache
             })
             const result = await partage.save();
-            const userById = await User.findById("60bd3c091352344a58e2b071");
+            const userById = await User.findById(req.userId);
 
             createdPartage = transformEvent(result);
 
@@ -41,11 +41,11 @@ import { Response, Request, NextFunction } from "express";
             throw err;
         }
     }
-    export const cancelPartege = async (args : any, req : Request) => {
+    export const cancelPartege = async (args : any, req : any) => {
 
-        // if (!req.isAuth) {
-        //     throw new Error('Unauthenticated!');
-        // }
+        if (!req.isAuth) {
+            throw new Error('Unauthenticated!');
+        }
 
         try {
             const partage = await Partage.findById(args.partageId).populate('tache');

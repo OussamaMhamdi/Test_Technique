@@ -5,11 +5,13 @@ var UserSchema= new Schema({
   
     email :{
         type : String,
-        require : true
+        require : true,
+        default: {}
     },
     password : {
         type : String,
-        require : true
+        require : true,
+        default: {}
     },
     createdTaches : [
         {
