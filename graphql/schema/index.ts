@@ -62,7 +62,7 @@ const graphqlSchemas = buildSchema(`
             addTache(tacheInput : TacheInput): Tache
             updateTahce(tacheInput : TacheInput): Tache
             deleteTache(tacheId: ID!): Tache
-            addUser(userInput: UserInput): User
+            addUser(userInput: UserInput): Boolean  
             partager(tacheid: ID!): Partage!
             cancelPartege(partageId: ID!): Tache
             deleteComment(commentId: ID!): Tache

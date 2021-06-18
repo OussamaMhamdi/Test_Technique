@@ -1,9 +1,10 @@
 import { User } from '../../models/user';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { Response } from 'express';
 
 
-    export const addUser = async (args: any) => {
+    export const addUser = async (args: any,res :Response) => {
         try {
             console.log("oooooo")
             const user = await User.findOne({ email: args.userInput.email });
@@ -21,7 +22,7 @@ import jwt from 'jsonwebtoken';
             console.log(newUser)
             const result = await newUser.save();
 
-            return { ...result._doc, password: null }
+            return true
         } catch (err) {
             throw err;
         }
